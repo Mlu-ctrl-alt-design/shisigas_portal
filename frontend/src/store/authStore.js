@@ -19,6 +19,13 @@ const useAuthStore = create(
       isAuthenticated: false,
 
       /**
+       * True once Zustand has rehydrated state from localStorage.
+       * Use this in route guards to avoid a flash redirect to /login
+       * on page refresh before hydration completes.
+       */
+      _hasHydrated: false,
+
+      /**
        * Called after a successful login or OTP verification.
        * @param {string} email
        */
@@ -31,15 +38,18 @@ const useAuthStore = create(
        */
       clearUser: () =>
         set({ user: null, isAuthenticated: false }),
+
+      setHasHydrated: (val) => set({ _hasHydrated: val }),
     }),
     {
       name: 'shisigas-auth',
       // Only persist user email; isAuthenticated is derived
       partialize: (state) => ({ user: state.user }),
-      // Rehydrate isAuthenticated from persisted user
+      // Rehydrate isAuthenticated from persisted user; signal hydration complete
       onRehydrateStorage: () => (state) => {
-        if (state?.user) {
-          state.isAuthenticated = true;
+        if (state) {
+          if (state.user) state.isAuthenticated = true;
+          state._hasHydrated = true;
         }
       },
     }
