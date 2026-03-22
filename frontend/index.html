@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shisia Gas Portal</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!--
+      Google Maps JavaScript API with Places library.
+      VITE_GOOGLE_MAPS_KEY is replaced at build time by Vite's HTML env injection.
+      For dev: ensure VITE_GOOGLE_MAPS_KEY is set in .env
+      Using async + callback to avoid race conditions with map initialisation.
+    -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=%VITE_GOOGLE_MAPS_KEY%&libraries=places&callback=Function.prototype"
+      async
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
